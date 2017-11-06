@@ -96,7 +96,7 @@ public class BookingForm extends javax.swing.JFrame {
     public final void setEmployeeID() {
         int n = newManager.getEmployeeData().length;
         for (int i = 0; i < n; i++) {
-            comboEmployee.addItem(newManager.getEmployeeData()[i][0].toString());
+            comboEmployee.addItem(newManager.getEmployeeData()[i][1].toString());
         }
     }
 
@@ -185,6 +185,37 @@ public class BookingForm extends javax.swing.JFrame {
         }
     }
 
+    public void checkLeapYear() {
+        int year = Integer.parseInt(comboboxYear.getSelectedItem().toString());
+        boolean isLeapYear = false;
+        if (year % 4 == 0) {
+            if (year % 100 == 0) {
+                // year is divisible by 400, hence the year is a leap year
+                if (year % 400 == 0) {
+                    isLeapYear = true;
+                } else {
+                    isLeapYear = false;
+                }
+            } else {
+                isLeapYear = true;
+            }
+        } else {
+            isLeapYear = false;
+        }
+        if (isLeapYear) {
+            comboboxDay.addItem("29");
+        }
+    }
+
+    public void checkTime() {
+        String time[] = clock.getCurrentTimeStamp().split(":");
+        int currentHour = Integer.parseInt(time[0]);
+        int hour = Integer.parseInt(comboboxHour.getSelectedItem().toString());
+        if (currentHour >= hour) {
+            JOptionPane.showMessageDialog(null, "Booking Time Past");
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -245,6 +276,11 @@ public class BookingForm extends javax.swing.JFrame {
         lblTime.setText("Time ");
 
         comboboxHour.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" }));
+        comboboxHour.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboboxHourActionPerformed(evt);
+            }
+        });
 
         comboboxMinute.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "15", "30", "45", " " }));
 
@@ -252,7 +288,7 @@ public class BookingForm extends javax.swing.JFrame {
 
         lblNumber1.setText("No. of customers");
 
-        lblNumber.setText("Employee ID");
+        lblNumber.setText("Employee");
 
         lblTitle.setText("Bookings");
 
@@ -516,6 +552,7 @@ public class BookingForm extends javax.swing.JFrame {
 
     private void comboboxYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxYearActionPerformed
         checkPredateYear();
+        checkLeapYear();
     }//GEN-LAST:event_comboboxYearActionPerformed
 
     private void textCustomerNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textCustomerNameMouseClicked
@@ -529,6 +566,10 @@ public class BookingForm extends javax.swing.JFrame {
     private void textCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCustomerNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textCustomerNameActionPerformed
+
+    private void comboboxHourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxHourActionPerformed
+        checkTime();
+    }//GEN-LAST:event_comboboxHourActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAccept1;

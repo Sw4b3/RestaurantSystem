@@ -2434,6 +2434,7 @@ public class MainSystem extends javax.swing.JFrame implements ActionListener {
                 if (confirm == JOptionPane.YES_OPTION) {
                     system.removeRecipe(getIDrecipe());
                     populateRecipeTable();
+                    populateRecipeListTable();
                 }
             }
         }
@@ -2608,9 +2609,11 @@ public class MainSystem extends javax.swing.JFrame implements ActionListener {
         if (tblInventory.getSelectedRow() == (-1)) {
             JOptionPane.showMessageDialog(null, "No Item Selected");
         } else {
-            updateShrinkage();
-            populateInvnetoryTable();
-            system.checkStockLevel();
+            if (user.createAdminLogin() == true) {
+                updateShrinkage();
+                populateInvnetoryTable();
+                system.checkStockLevel();
+            }
         }
     }//GEN-LAST:event_buttonEdit1ActionPerformed
 

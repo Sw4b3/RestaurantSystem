@@ -5,6 +5,7 @@ import bin.system.EmailClient;
 import bin.system.ReceiptHandler;
 import javax.swing.JOptionPane;
 import static bin.forms.NewOrder.tblItems;
+import bin.system.UserManager;
 
 /**
  *
@@ -16,6 +17,7 @@ public class Checkout extends javax.swing.JFrame {
     String user;
     double total;
     double currentTotal;
+    UserManager userManager = new UserManager();
     DatabaseManager newManager = new DatabaseManager();
     ReceiptHandler newHandler = new ReceiptHandler();
     EmailClient newClient = new EmailClient();
@@ -538,7 +540,9 @@ public class Checkout extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButton1ActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        getDiscount();
+        if (userManager.createAdminLogin() == true) {
+            getDiscount();
+        }
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

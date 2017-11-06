@@ -1205,12 +1205,11 @@ public class DatabaseManager {
         }
     }
 
-    //Updates Inventory table with "Update" button
     public void updateInventory(Object ID, Object item, Object qty, Object itemT, Object itemL) {
 
-        try ( //connect to db
+        try (
                 Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
-            //update query
+
             String query = "UPDATE inventory set item='" + item + "' '"
                     + "' ,qty='" + qty + "' '"
                     + "' ,itemThreshold='" + itemT + "' '"
@@ -1219,12 +1218,10 @@ public class DatabaseManager {
             preparedStmt.executeUpdate();
             logs.writeLogs("UPDATED", "Inventory");
         } catch (SQLException exp) {
-            //prints SQL Exception
             System.out.println("Error: " + exp);
         }
     }
 
-    //Updates recipe table with "Update" button
     public void updateRecipe(Object ID, Object name, Object price, Object vat, Object type) {
 
         try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
@@ -1237,7 +1234,6 @@ public class DatabaseManager {
             preparedStmt.executeUpdate();
             logs.writeLogs("UPDATED", "Recipe");
         } catch (SQLException exp) {
-            //prints SQL Exception
             System.out.println("Error: " + exp);
         }
     }
@@ -1268,13 +1264,12 @@ public class DatabaseManager {
             System.out.println(exp);
         }
     }
-    //Updates supplier table with "Update" button
+
 
     public void updateSupplier(Object ID, Object name, Object email, Object num, Object address) {
 
-        try ( //connect to db
-                Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
-            //update query
+        try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
+      
             String query = "UPDATE supplier set supplierName='" + name + "' '"
                     + "' ,supplierEmail='" + email + "' '"
                     + "' ,supplierNumber='" + num + "' '"
@@ -1283,7 +1278,7 @@ public class DatabaseManager {
             preparedStmt.executeUpdate();
             logs.writeLogs("UPDATED", "Supplier");
         } catch (SQLException exp) {
-            //prints SQL Exception
+  
             System.out.println("Error: " + exp);
         }
     }
@@ -1329,7 +1324,6 @@ public class DatabaseManager {
 
         try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
             String updateQuery = "UPDATE recipe SET recipeCount=(recipeCount+1) WHERE recipeName ='" + order + "'";
-//            s.execute(updateQuery);
             PreparedStatement preparedStmt = conn.prepareStatement(updateQuery);
             preparedStmt.executeUpdate();
             logs.writeLogs("UPDATED", "recipe");
@@ -1337,7 +1331,7 @@ public class DatabaseManager {
             System.out.println(exp);
         }
     }
-    // revise- simplify if possible
+
 
     public void recipeStockUpdate(JTable table, String tableNum) {
         try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {

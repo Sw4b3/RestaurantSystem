@@ -110,7 +110,7 @@ public class Specials extends javax.swing.JFrame {
             .addGap(0, 285, Short.MAX_VALUE)
         );
 
-        jLabel1.setText("Special");
+        jLabel1.setText("Specials");
 
         javax.swing.GroupLayout pnlSpecialLayout = new javax.swing.GroupLayout(pnlSpecial);
         pnlSpecial.setLayout(pnlSpecialLayout);
