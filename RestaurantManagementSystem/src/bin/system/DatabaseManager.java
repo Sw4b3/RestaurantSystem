@@ -991,7 +991,6 @@ public class DatabaseManager {
     }
 
     public void insertReservations(String employee, String date, String time, String customerName, int tableNum, int customerNum, String contact) {
-
         try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
             String insertQuerySup = "INSERT INTO reservation(employeeID, reservationDate,"
                     + " reservationTime, reservationCustomer,reservationTableNumber,reservationNumberPeople,contactNumber)"
@@ -1151,7 +1150,7 @@ public class DatabaseManager {
         }
     }
 
-    public void removeSpecials(String specialsID ) {
+    public void removeSpecials(String specialsID) {
         try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
             String query = "DELETE FROM specials WHERE specialsID='" + specialsID + "'";
             s.execute(query);
@@ -1265,11 +1264,10 @@ public class DatabaseManager {
         }
     }
 
-
     public void updateSupplier(Object ID, Object name, Object email, Object num, Object address) {
 
         try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
-      
+
             String query = "UPDATE supplier set supplierName='" + name + "' '"
                     + "' ,supplierEmail='" + email + "' '"
                     + "' ,supplierNumber='" + num + "' '"
@@ -1278,7 +1276,7 @@ public class DatabaseManager {
             preparedStmt.executeUpdate();
             logs.writeLogs("UPDATED", "Supplier");
         } catch (SQLException exp) {
-  
+
             System.out.println("Error: " + exp);
         }
     }
@@ -1332,7 +1330,6 @@ public class DatabaseManager {
         }
     }
 
-
     public void recipeStockUpdate(JTable table, String tableNum) {
         try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
 
@@ -1346,9 +1343,7 @@ public class DatabaseManager {
 
                     while (rs.next()) {
                         String inventoryID = rs.getString("inventoryID");
-                        System.out.println(inventoryID);
                         String qty = rs.getString("qty");
-                        System.out.println(qty);
                         String query = "Update inventory set qty =  GREATEST(0,qty-'" + qty + "') WHERE inventoryID = '" + inventoryID + "'";
                         PreparedStatement preparedstmt = conn.prepareStatement(query);
                         preparedstmt.executeUpdate();
@@ -1422,19 +1417,17 @@ public class DatabaseManager {
         int day = Integer.parseInt(date[2]);
         if (day % 7 == 0) {
             try {
-                String executeCmd = ".\\src\\database\\mysqldump.exe";
-
+                String executeCmd = ".\\src\\database\\mysqldump.exe"
+                        + " -u " + username + " -p" + password + " resturantdb  -r " + location;
                 Process runtimeProcess = Runtime.getRuntime().exec(executeCmd);
                 int processComplete = runtimeProcess.waitFor();
-
                 if (processComplete == 0) {
-                    System.out.println("Backup Complete");
+                    JOptionPane.showMessageDialog(null, "Weekly Backup Complete");
                 } else {
-                    System.out.println("Restore Failed");
+                    JOptionPane.showMessageDialog(null, "Backup Failed");
                 }
-
-            } catch (IOException | InterruptedException | HeadlessException ex) {
-                JOptionPane.showMessageDialog(null, "Error at Restoredbfromsql" + ex.getMessage());
+            } catch (IOException | InterruptedException ex) {
+                JOptionPane.showMessageDialog(null, "Error at Backuprestore" + ex.getMessage());
             }
         }
     }

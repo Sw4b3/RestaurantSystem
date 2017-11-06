@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `resturantdb`.`reservation` (
   `reservationID` INT(11) NOT NULL AUTO_INCREMENT,
   `employeeID` INT(11) NOT NULL,
   `reservationDate` DATE NULL DEFAULT NULL,
-  `reservationTime` TIME NULL DEFAULT NULL,
+  `reservationTime` VARCHAR(45) NULL DEFAULT NULL,
   `reservationCustomer` VARCHAR(45) NULL DEFAULT NULL,
   `reservationTableNumber` INT(11) NULL DEFAULT NULL,
   `reservationNumberPeople` INT(11) NULL DEFAULT NULL,

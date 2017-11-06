@@ -38,7 +38,6 @@ public class Checkout extends javax.swing.JFrame {
 
     public void calculateBill() {
         double totalCost;
-        //int empID = newManager.getEmployeeID(NewOrder.getWaiter());
         currentTotal = total;
         if (number != null) {
             totalCost = Double.parseDouble(number) - currentTotal;

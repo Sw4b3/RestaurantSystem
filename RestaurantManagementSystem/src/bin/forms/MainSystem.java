@@ -1088,6 +1088,7 @@ public class MainSystem extends javax.swing.JFrame implements ActionListener {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.setEnabled(false);
         jTable1.setGridColor(new java.awt.Color(204, 204, 204));
         jScrollPane2.setViewportView(jTable1);
 
