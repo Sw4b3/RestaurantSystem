@@ -36,14 +36,18 @@ public class Logout extends javax.swing.JFrame {
         tableLoginedUsers.setModel(tableModel);
     }
 
-    public static String getUsername() {
+    public String getUsername() {
         String username = tableLoginedUsers.getValueAt(tableLoginedUsers.getSelectedRow(), 0).toString();
         return username;
     }
 
-    public static int getRowIndex() {
+    public int getRowIndex() {
         int rowIndex = tableLoginedUsers.getSelectedRow();
         return rowIndex;
+    }
+
+    public int tableSize() {
+        return tableLoginedUsers.getRowCount();
     }
 
     @SuppressWarnings("unchecked")
@@ -158,7 +162,7 @@ public class Logout extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCancelActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        newManager.logout();
+        newManager.logout(getUsername(), getRowIndex(),tableSize());
         populateTable();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -167,6 +171,7 @@ public class Logout extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelLogout;
-    public static javax.swing.JTable tableLoginedUsers;
+    private javax.swing.JTable tableLoginedUsers;
     // End of variables declaration//GEN-END:variables
+
 }

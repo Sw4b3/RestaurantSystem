@@ -18,7 +18,7 @@ public class LoginForm extends javax.swing.JDialog {
 
     ArrayList usernames = new ArrayList();
     UserManager user = new UserManager();
-    
+
     String username;
 
     public LoginForm(java.awt.Frame parent, boolean modal, ArrayList usernames) {
@@ -173,7 +173,7 @@ public class LoginForm extends javax.swing.JDialog {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         user.createLogin();
-        this.dispose();
+        populateTable();
     }//GEN-LAST:event_jButton3ActionPerformed
 
 

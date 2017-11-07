@@ -7,17 +7,19 @@ import java.awt.event.KeyEvent;
  *
  * @author Andrew
  */
-public class Login extends javax.swing.JFrame {
+public class Login extends javax.swing.JDialog {
 
     UserManager newManager = new UserManager();
     Keyboard k = new Keyboard();
 
-    public Login() {
+    public Login(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     public void disposeLogin() {
-        this.dispose();
+        super.dispose();
     }
 
     public void authenticate() {
@@ -25,6 +27,7 @@ public class Login extends javax.swing.JFrame {
         String password = passwordFieldBox.getText();
         newManager.loginAuthentication(username, password);
         k.dispose();
+        dispose();
     }
 
     @SuppressWarnings("unchecked")
@@ -34,15 +37,13 @@ public class Login extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         buttonCancel = new javax.swing.JButton();
         lblLogin = new javax.swing.JButton();
+        passwordFieldBox = new javax.swing.JPasswordField();
         textfieldUser = new javax.swing.JTextField();
         lblUsername = new javax.swing.JLabel();
         lblPassword = new javax.swing.JLabel();
-        passwordFieldBox = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setLocation(new java.awt.Point(250, 250));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
-        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -68,6 +69,12 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        passwordFieldBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordFieldBoxKeyPressed(evt);
+            }
+        });
+
         textfieldUser.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 textfieldUserKeyPressed(evt);
@@ -78,19 +85,13 @@ public class Login extends javax.swing.JFrame {
 
         lblPassword.setText("Password");
 
-        passwordFieldBox.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                passwordFieldBoxKeyPressed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(19, 19, 19)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblUsername)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -103,13 +104,13 @@ public class Login extends javax.swing.JFrame {
                                 .addComponent(lblLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(buttonCancel))
-                            .addComponent(passwordFieldBox))))
-                .addContainerGap(46, Short.MAX_VALUE))
+                            .addComponent(passwordFieldBox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUsername)
                     .addComponent(textfieldUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -121,48 +122,43 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblLogin)
                     .addComponent(buttonCancel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_buttonCancelActionPerformed
 
     private void lblLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblLoginActionPerformed
         authenticate();
     }//GEN-LAST:event_lblLoginActionPerformed
 
-    private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
-        this.dispose();
-        k.dispose();
-    }//GEN-LAST:event_buttonCancelActionPerformed
+    private void textfieldUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textfieldUserKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            authenticate();
+        }
+    }//GEN-LAST:event_textfieldUserKeyPressed
 
     private void passwordFieldBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldBoxKeyPressed
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             authenticate();
         }
     }//GEN-LAST:event_passwordFieldBoxKeyPressed
 
-    private void textfieldUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textfieldUserKeyPressed
-           if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            authenticate();
-        }
-    }//GEN-LAST:event_textfieldUserKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancel;

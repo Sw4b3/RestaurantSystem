@@ -1,9 +1,9 @@
 package bin.system;
 
+import bin.forms.Login;
 import bin.forms.Logout;
 import bin.forms.LoginAdmin;
 import bin.forms.LoginForm;
-import bin.forms.Login;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 public class UserManager {
 
     static ArrayList<String> usernames = new ArrayList();
-    static Login loginSystem;
+    Login loginSystem;
     Logout logoutSystem;
     DatabaseManager newManager = new DatabaseManager();
     InternalClock clock = new InternalClock();
@@ -25,7 +25,7 @@ public class UserManager {
     }
 
     public void createLogin() {
-        loginSystem = new Login();
+        loginSystem = new Login(null, true);
         loginSystem.setVisible(true);
     }
 
@@ -70,7 +70,6 @@ public class UserManager {
                 addUser(username);
                 clock.setLoginTimeStamp();
                 newManager.updateEmployeeStatusIn(username);
-                loginSystem.disposeLogin();
                 JOptionPane.showMessageDialog(null, "Logged In");
                 return true;
             } else {
@@ -81,19 +80,23 @@ public class UserManager {
         return login;
     }
 
-    public void logout() {
-        String username = Logout.getUsername();
-        int rowIndex = Logout.getRowIndex();
-        clock.setLogoutTimeStamp();
-        newManager.updateHours(username, rowIndex);
-        newManager.updateEmployeeStatusOut(username);
-        usernames.remove(rowIndex);
+    public void logout(String username, int rowIndex,int tableSize) {
+        String password = JOptionPane.showInputDialog(null, "Enter Password");
+        for (int i = 0; i < tableSize; i++) {
+            if (username.equals(newManager.getEmployeeData()[i][1])
+                    && password.equals(newManager.getEmployeeData()[i][6])) {
+                clock.setLogoutTimeStamp();
+                newManager.updateHours(username, rowIndex);
+                newManager.updateEmployeeStatusOut(username);
+                usernames.remove(rowIndex);
+            }
+        }
     }
 
     public void logoutAll() {
         for (int i = 0; i < usernames.size(); i++) {
             clock.setLogoutTimeStamp();
-            newManager.updateHours(usernames.get(i),0);
+            newManager.updateHours(usernames.get(i), 0);
         }
         newManager.loggoutAllEmployee();
     }
