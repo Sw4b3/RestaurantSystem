@@ -26,8 +26,8 @@ public class LoginAdmin extends javax.swing.JDialog {
         for (int i = 0; i < newDBManager.getEmployeeData().length; i++) {
             if (login == false) {
                 if (username.equals(newDBManager.getEmployeeData()[i][1])
-                        && password.equals(newDBManager.getEmployeeData()[i][6])
-                        && newDBManager.getEmployeeData()[i][5].equals(true)) {
+                        && password.equals(newDBManager.getEmployeeData()[i][7])
+                        && newDBManager.getEmployeeData()[i][6].equals(true)) {
                     login = true;
                 } else {
                     login = false;

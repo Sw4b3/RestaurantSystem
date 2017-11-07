@@ -2,6 +2,7 @@ package bin.forms;
 
 import bin.system.DatabaseManager;
 import bin.system.InternalClock;
+import bin.system.UserManager;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,6 +15,7 @@ public class EmployeeForm extends javax.swing.JFrame {
 
     DatabaseManager newManager = new DatabaseManager();
     InternalClock clock = new InternalClock();
+    UserManager userManager = new UserManager();
     double Wage;
     double rate;
 
@@ -24,7 +26,7 @@ public class EmployeeForm extends javax.swing.JFrame {
     }
 
     public final void populateEmployeeTable() {
-        String columnNames[] = {"ID", "First Name", "Last Name", "Number", "Hours Worked"};
+        String columnNames[] = {"ID", "First Name", "Last Name", "Number", "Hours Worked","Status"};
         DefaultTableModel tableModel = new DefaultTableModel(newManager.getEmployeeData(), columnNames);
         tableEmp.setModel(tableModel);
     }
@@ -44,17 +46,17 @@ public class EmployeeForm extends javax.swing.JFrame {
         if (tableEmp.getSelectionModel().isSelectionEmpty() == false) {
             String password = JOptionPane.showInputDialog("Please Enter your New Password");
             if (JOptionPane.NO_OPTION != -1) {
-            if (password != null && password.matches(regexStr)) {
-                String passwordConfirm = JOptionPane.showInputDialog("Please Confirm Password");
-                if (password.equals(passwordConfirm)) {
-                    newManager.updateEmployee(getUsername(), password);
-                    JOptionPane.showMessageDialog(null, "Password's Changed");
+                if (password != null && password.matches(regexStr)) {
+                    String passwordConfirm = JOptionPane.showInputDialog("Please Confirm Password");
+                    if (password.equals(passwordConfirm)) {
+                        newManager.updateEmployee(getUsername(), password);
+                        JOptionPane.showMessageDialog(null, "Password's Changed");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Password's do not Match");
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Password's do not Match");
+                    JOptionPane.showMessageDialog(null, "Please enter a valid Password");
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Please enter a valid Password");
-            }
             } else {
                 System.out.println("click cancel");
             }
@@ -84,6 +86,17 @@ public class EmployeeForm extends javax.swing.JFrame {
         }
 
         return Wage;
+    }
+
+    public void showLoggedIn() {
+        String columnNames[] = {"Name"};
+        Object row[][] = new Object[userManager.getUsers().size()][2];
+        for (int i = 0; i < userManager.getUsers().size(); i++) {
+            row[i][0] = userManager.getUsers().get(i);
+            row[i][1] = clock.getLoginTimeStamp().get(i);
+        }
+        DefaultTableModel tableModel = new DefaultTableModel(row, columnNames);
+        tableEmp.setModel(tableModel);
     }
 
     public final void setButtonColor(Color color) {
@@ -288,7 +301,7 @@ public class EmployeeForm extends javax.swing.JFrame {
         if (tableEmp.getSelectionModel().isSelectionEmpty() == false) {
             int confirm = JOptionPane.showConfirmDialog(null, "Are you sure?", null, JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                newManager.removeEmployee(getID());
+                newManager.voidEmployee(getID());
                 populateEmployeeTable();
             }
         } else {
@@ -306,7 +319,7 @@ public class EmployeeForm extends javax.swing.JFrame {
 
     private void toggleLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleLoginActionPerformed
         if (toggleLogin.isSelected()) {
-            newManager.showActiveEmp();
+            showLoggedIn();
             toggleLogin.setText("View employee hours");
         } else {
             populateEmployeeTable();

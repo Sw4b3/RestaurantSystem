@@ -276,7 +276,7 @@ public class DatabaseManager {
         try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
             Class.forName(driver).newInstance();
 
-            String query = "SELECT employeeID,employeeFName,employeeLName,employeeContactNumber,employeeHoursWorked, admin, employeePassword, employeeStatus "
+            String query = "SELECT employeeID,employeeFName,employeeLName,employeeContactNumber,employeeHoursWorked,employeeStatus, admin, employeePassword, employeeStatus "
                     + "FROM employee WHERE employeeID >1 ";
             ResultSet rs = s.executeQuery(query);
             ResultSetMetaData metaData = rs.getMetaData();
@@ -687,35 +687,6 @@ public class DatabaseManager {
         return rowData;
     }
 
-//delete later
-    public void showActiveEmp() {
-        String columnNamesEmp[] = {"First Name", "Last Name", "Active"};
-        try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
-            Class.forName(driver).newInstance();
-
-            String query = "SELECT employeeFName,employeeLName,employeeStatus FROM employee WHERE employeeStatus= 'Active' ";
-            try (ResultSet rs = s.executeQuery(query)) {
-                ResultSetMetaData metaData = rs.getMetaData();
-                int columnCount = metaData.getColumnCount();
-                DefaultTableModel tableModel3 = new DefaultTableModel();
-                EmployeeForm.tableEmp.setModel(tableModel3);
-
-                for (int i = 0; i < columnCount; i++) {
-                    tableModel3.addColumn(columnNamesEmp[i]);
-                }
-                Object[] row = new Object[columnCount];
-
-                while (rs.next()) {
-                    for (int i = 0; i < columnCount; i++) {
-                        row[i] = rs.getObject(i + 1);
-                    }
-                    tableModel3.addRow(row);
-                }
-            }
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException exc) {
-        }
-    }
-
     public String getHoursWorked(String Username) {
         String time = "00hrs00";
         try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
@@ -759,13 +730,14 @@ public class DatabaseManager {
     public void insertEmployee(String firstName, String lastName, String empPassword, String contact, int adminRights) {
 
         try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
-            String insertQuery = "INSERT INTO employee (employeeFName, employeeLName, employeePassword,employeeContactNumber,employeeHoursWorked,admin )"
+            String insertQuery = "INSERT INTO employee (employeeFName, employeeLName, employeePassword,employeeContactNumber,employeeHoursWorked,admin,employeeStatus )"
                     + "VALUES ('" + firstName + "', '"
                     + lastName + "', '"
                     + empPassword + "', '"
                     + contact + "', '"
                     + "00h00" + "','"
-                    + adminRights + "')";
+                    + adminRights + "',"
+                    + "'Active')";
             s.execute(insertQuery);
             logs.writeLogs("ADDED", "Employee");
         } catch (SQLIntegrityConstraintViolationException e) {
@@ -1141,7 +1113,6 @@ public class DatabaseManager {
     }
 
     public void removeEmployee(int index) {
-
         try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
             String query = "DELETE FROM employee WHERE employeeID='" + index + "'";
             s.execute(query);
@@ -1182,22 +1153,11 @@ public class DatabaseManager {
         } catch (SQLException exp) {
             System.out.println(exp);
         }
-    }
+    } 
 
-    public void updateEmployeeStatusIn(String Username) {
-
+    public void voidEmployee(int ID) {
         try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
-            String query = "UPDATE employee set employeeStatus= 'Active' WHERE employeeFName='" + Username + "'";
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.executeUpdate();
-        } catch (SQLException exp) {
-        }
-    }
-
-    public void updateEmployeeStatusOut(String Username) {
-
-        try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
-            String query = "UPDATE employee set employeeStatus= 'Deactive' WHERE employeeFName='" + Username + "'";
+            String query = "UPDATE employee set employeeStatus= 'Void' WHERE employeeID='" + ID + "'";
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.executeUpdate();
         } catch (SQLException exp) {
@@ -1289,18 +1249,6 @@ public class DatabaseManager {
             PreparedStatement preparedStmt = conn.prepareStatement(updateQuery);
             preparedStmt.executeUpdate();
             logs.writeLogs("UPDATED", "Employee");
-        } catch (SQLException exp) {
-            System.out.println(exp);
-        }
-    }
-
-    public void loggoutAllEmployee() {
-
-        try (Connection conn = DriverManager.getConnection(url, username, password); Statement s = conn.createStatement()) {
-            String updateQuery = "UPDATE employee SET employeeStatus='Deactive'";
-            s.execute(updateQuery);
-            PreparedStatement preparedStmt = conn.prepareStatement(updateQuery);
-            preparedStmt.executeUpdate();
         } catch (SQLException exp) {
             System.out.println(exp);
         }

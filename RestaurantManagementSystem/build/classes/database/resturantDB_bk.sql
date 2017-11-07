@@ -33,7 +33,7 @@ CREATE TABLE `employee` (
   `admin` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`employeeID`),
   UNIQUE KEY `employeeFName_UNIQUE` (`employeeFName`,`employeeLName`,`employeeContactNumber`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` VALUES (1,'Admin','Admin','AdPassword#$','0','0','Deactive',1),(2,'Andrew','Schwabe','Password','076 273 1721','0hrs5','Deactive',1),(3,'Zane','Smith','Password','034 233 8321','0hrs1','Deactive',1),(4,'Chad','Phillips','Password','087 237 1277','0hrs0','Deactive',0),(5,'Sean','Thomson','Password','072 377 1122','0hrs00','Deactive',0),(6,'Itumeleng','Madisha','Password','072 377 1122','0hrs00','Deactive',0);
+INSERT INTO `employee` VALUES (1,'Admin','Admin','AdPassword#$','0','0','Active',1),(2,'Andrew','Schwabe','Password','076 273 1721','0hrs5','Active',1),(3,'Zane','Smith','Password','034 233 8321','0hrs1','Active',1),(4,'Chad','Phillips','Password','087 237 1277','0hrs0','Active',0),(5,'Sean','Thomson','Password','072 377 1122','0hrs00','Active',0),(6,'Itumeleng','Madisha','Password','072 377 1122','0hrs00','Void',0);
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -394,4 +394,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-07 13:59:45
+-- Dump completed on 2017-11-07 19:59:16

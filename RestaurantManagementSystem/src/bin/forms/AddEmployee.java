@@ -52,20 +52,21 @@ public class AddEmployee extends javax.swing.JFrame {
     }
 
     public String getEmpPassword() {
-        String regexStr = "[a-zA-Z0-9]{8,}";
-        String pass = textfieildPassowrd.getText();
-        if (pass.equals(textfieildPassowrdC.getText())) {
-            if (pass.matches(regexStr)) {
-                return pass;
-            } else {
-                JOptionPane.showMessageDialog(null, "Password must contain atleast 1\n   -Capital letter\n   -Lower-case letter\n   -Numerical digit");
-                setVisible(true);
-                return null;
-            }
+//        String regexStr = "[a-zA-Z0-9]";
+        String password = textfieildPassowrd.getText();
+        if (password.equals(textfieildPassowrdC.getText())) {
+//            if (pass.matches(regexStr)) {
+//                return pass;
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Password must contain atleast 1\n   -Capital letter\n   -Lower-case letter\n   -Numerical digit");
+//                setVisible(true);
+//                return null;
+//            }
         } else {
             JOptionPane.showMessageDialog(null, "Password's do not Match");
             return null;
         }
+        return password;
     }
 
     public String getEmpContact() {

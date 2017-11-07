@@ -46,20 +46,26 @@ public class UserManager {
         logoutSystem.setVisible(true);
     }
 
+    public ArrayList getUsers() {
+        return usernames;
+    }
+
     public boolean loginAuthentication(String username, String password) {
         boolean loggedin = false;
         boolean login = false;
         for (int j = 0; j < newManager.getEmployeeData().length; j++) {
             if (login == false) {
                 if (username.equals(newManager.getEmployeeData()[j][1])
-                        && password.equals(newManager.getEmployeeData()[j][6])) {
-                    if (newManager.getEmployeeData()[j][7].equals("Active")) {
-                        JOptionPane.showMessageDialog(null, "Already Logged In");
-                        loggedin = true;
-                    } else {
-                        login = true;
+                        && password.equals(newManager.getEmployeeData()[j][7])) {
+                    for (int i = 0; i < usernames.size(); i++) {
+                        if (username.equals(usernames.get(i))) {
+                            JOptionPane.showMessageDialog(null, "Already Logged In");
+                            loggedin = true;
+                        } else {
+                            login = true;
+                        }
                     }
-
+                    login = true;
                 } else {
                     login = false;
                 }
@@ -69,7 +75,6 @@ public class UserManager {
             if (login == true) {
                 addUser(username);
                 clock.setLoginTimeStamp();
-                newManager.updateEmployeeStatusIn(username);
                 JOptionPane.showMessageDialog(null, "Logged In");
                 return true;
             } else {
@@ -80,14 +85,13 @@ public class UserManager {
         return login;
     }
 
-    public void logout(String username, int rowIndex,int tableSize) {
+    public void logout(String username, int rowIndex, int tableSize) {
         String password = JOptionPane.showInputDialog(null, "Enter Password");
         for (int i = 0; i < tableSize; i++) {
             if (username.equals(newManager.getEmployeeData()[i][1])
                     && password.equals(newManager.getEmployeeData()[i][6])) {
                 clock.setLogoutTimeStamp();
                 newManager.updateHours(username, rowIndex);
-                newManager.updateEmployeeStatusOut(username);
                 usernames.remove(rowIndex);
             }
         }
@@ -98,6 +102,5 @@ public class UserManager {
             clock.setLogoutTimeStamp();
             newManager.updateHours(usernames.get(i), 0);
         }
-        newManager.loggoutAllEmployee();
     }
 }
